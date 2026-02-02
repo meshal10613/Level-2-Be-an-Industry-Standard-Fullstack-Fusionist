@@ -11,3 +11,4 @@ src/generated/prisma
 .vercel
 
 render.yaml
+/src/generated/prisma
