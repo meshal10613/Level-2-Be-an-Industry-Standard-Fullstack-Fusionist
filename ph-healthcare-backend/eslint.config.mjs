@@ -806,7 +806,7 @@ export default defineConfig(
              * - Nullish: `Value: ${null}` ❌ (can be confusing)
              */
             "@typescript-eslint/restrict-template-expressions": [
-                "warn",
+                "off",
                 {
                     allowNumber: true, // Allow numbers in templates
                     allowBoolean: true, // Allow booleans in templates
