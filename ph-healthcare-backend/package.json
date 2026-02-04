@@ -1,56 +1,31 @@
 {
     "name": "ph-healthcare-backend",
     "version": "1.0.0",
-    "description": "PH HealthCare Backend API - Node.js Express TypeScript Prisma",
-    "main": "dist/server.js",
-    "type": "module",
-    "license": "MIT",
-    "packageManager": "pnpm@10.28.2+sha512.41872f037ad22f7348e3b1debbaf7e867cfd448f2726d9cf74c08f19507c31d2c8e7a11525b983febc2df640b5438dee6023ebb1f84ed43cc2d654d2bc326264",
-    "engines": {
-        "node": ">=22.0.0",
-        "pnpm": ">=10.0.0"
-    },
+    "description": "",
+    "main": "index.js",
     "scripts": {
-        "preinstall": "npx only-allow pnpm",
-        "build": "prisma generate && tsc",
-        "start": "node dist/server.js",
-        "lint": "eslint .",
-        "lint:fix": "eslint . --fix",
-        "typecheck": "tsc --noEmit",
-        "db:generate": "prisma generate",
-        "db:migrate": "prisma migrate dev",
-        "db:push": "prisma db push",
-        "db:pull": "prisma db pull",
-        "db:studio": "prisma studio",
-        "db:reset": "prisma migrate reset",
-        "db:status": "prisma migrate status",
-        "postinstall": "prisma generate",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "tsx watch --env-file=.env ./src/server.ts"
+        "start": "node dist/server.js",
+        "build": "tsc",
+        "dev": "tsx --watch src/server.ts",
+        "lint": "eslint ./src/**/*"
     },
     "keywords": [],
     "author": "",
+    "license": "ISC",
+    "packageManager": "pnpm@10.28.2",
+    "dependencies": {
+        "dotenv": "^17.2.3",
+        "express": "^5.2.1"
+    },
     "devDependencies": {
         "@eslint/js": "^9.39.2",
-        "@tsconfig/node22": "^22.0.5",
-        "@tsconfig/strictest": "^2.0.8",
+        "@types/express": "^5.0.6",
         "@types/node": "^25.2.0",
-        "@types/pg": "^8.16.0",
         "eslint": "^9.39.2",
-        "prisma": "^7.3.0",
+        "ts-node": "^10.9.2",
         "tsx": "^4.21.0",
         "typescript": "^5.9.3",
         "typescript-eslint": "^8.54.0"
-    },
-    "dependencies": {
-        "@prisma/adapter-pg": "^7.3.0",
-        "@prisma/client": "^7.3.0",
-        "@types/express": "^5.0.6",
-        "better-auth": "^1.4.18",
-        "cors": "^2.8.6",
-        "dotenv": "^17.2.3",
-        "express": "^5.2.1",
-        "pg": "^8.18.0",
-        "zod": "^4.3.6"
     }
 }

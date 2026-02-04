@@ -1,12 +1,8 @@
-import { toNodeHandler } from "better-auth/node";
-import express, { type Application } from "express";
-import { auth } from "./lib/auth.js";
+import express, { Application, Request, Response } from "express";
 
 const app: Application = express();
 
-app.all("/api/v1/auth/*", toNodeHandler(auth));
-
-app.get("/", (req: express.Request, res: express.Response) => {
+app.get("/", (req: Request, res: Response) => {
     res.send("Hello World!");
 });
 
