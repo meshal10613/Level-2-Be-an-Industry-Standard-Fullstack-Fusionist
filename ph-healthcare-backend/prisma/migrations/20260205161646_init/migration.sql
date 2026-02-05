@@ -1,0 +1,17 @@
+-- CreateTable
+CREATE TABLE "specialties" (
+    "id" TEXT NOT NULL,
+    "title" VARCHAR(100) NOT NULL,
+    "description" TEXT,
+    "icom" VARCHAR(255),
+    "isDeleted" BOOLEAN NOT NULL DEFAULT false,
+    "deletedAt" TIMESTAMP(3),
+
+    CONSTRAINT "specialties_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE INDEX "idx_specialty_isDeleted" ON "specialties"("isDeleted");
+
+-- CreateIndex
+CREATE INDEX "idx_specialty_title" ON "specialties"("title");
