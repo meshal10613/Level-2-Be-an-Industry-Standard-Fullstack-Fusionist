@@ -28,7 +28,7 @@ export type SpecialtyMinAggregateOutputType = {
   id: string | null
   title: string | null
   description: string | null
-  icom: string | null
+  icon: string | null
   isDeleted: boolean | null
   deletedAt: Date | null
 }
@@ -37,7 +37,7 @@ export type SpecialtyMaxAggregateOutputType = {
   id: string | null
   title: string | null
   description: string | null
-  icom: string | null
+  icon: string | null
   isDeleted: boolean | null
   deletedAt: Date | null
 }
@@ -46,7 +46,7 @@ export type SpecialtyCountAggregateOutputType = {
   id: number
   title: number
   description: number
-  icom: number
+  icon: number
   isDeleted: number
   deletedAt: number
   _all: number
@@ -57,7 +57,7 @@ export type SpecialtyMinAggregateInputType = {
   id?: true
   title?: true
   description?: true
-  icom?: true
+  icon?: true
   isDeleted?: true
   deletedAt?: true
 }
@@ -66,7 +66,7 @@ export type SpecialtyMaxAggregateInputType = {
   id?: true
   title?: true
   description?: true
-  icom?: true
+  icon?: true
   isDeleted?: true
   deletedAt?: true
 }
@@ -75,7 +75,7 @@ export type SpecialtyCountAggregateInputType = {
   id?: true
   title?: true
   description?: true
-  icom?: true
+  icon?: true
   isDeleted?: true
   deletedAt?: true
   _all?: true
@@ -157,7 +157,7 @@ export type SpecialtyGroupByOutputType = {
   id: string
   title: string
   description: string | null
-  icom: string | null
+  icon: string | null
   isDeleted: boolean
   deletedAt: Date | null
   _count: SpecialtyCountAggregateOutputType | null
@@ -187,7 +187,7 @@ export type SpecialtyWhereInput = {
   id?: Prisma.StringFilter<"Specialty"> | string
   title?: Prisma.StringFilter<"Specialty"> | string
   description?: Prisma.StringNullableFilter<"Specialty"> | string | null
-  icom?: Prisma.StringNullableFilter<"Specialty"> | string | null
+  icon?: Prisma.StringNullableFilter<"Specialty"> | string | null
   isDeleted?: Prisma.BoolFilter<"Specialty"> | boolean
   deletedAt?: Prisma.DateTimeNullableFilter<"Specialty"> | Date | string | null
 }
@@ -196,28 +196,28 @@ export type SpecialtyOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  icom?: Prisma.SortOrderInput | Prisma.SortOrder
+  icon?: Prisma.SortOrderInput | Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type SpecialtyWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  title?: string
   AND?: Prisma.SpecialtyWhereInput | Prisma.SpecialtyWhereInput[]
   OR?: Prisma.SpecialtyWhereInput[]
   NOT?: Prisma.SpecialtyWhereInput | Prisma.SpecialtyWhereInput[]
-  title?: Prisma.StringFilter<"Specialty"> | string
   description?: Prisma.StringNullableFilter<"Specialty"> | string | null
-  icom?: Prisma.StringNullableFilter<"Specialty"> | string | null
+  icon?: Prisma.StringNullableFilter<"Specialty"> | string | null
   isDeleted?: Prisma.BoolFilter<"Specialty"> | boolean
   deletedAt?: Prisma.DateTimeNullableFilter<"Specialty"> | Date | string | null
-}, "id">
+}, "id" | "title">
 
 export type SpecialtyOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  icom?: Prisma.SortOrderInput | Prisma.SortOrder
+  icon?: Prisma.SortOrderInput | Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.SpecialtyCountOrderByAggregateInput
@@ -232,7 +232,7 @@ export type SpecialtyScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Specialty"> | string
   title?: Prisma.StringWithAggregatesFilter<"Specialty"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"Specialty"> | string | null
-  icom?: Prisma.StringNullableWithAggregatesFilter<"Specialty"> | string | null
+  icon?: Prisma.StringNullableWithAggregatesFilter<"Specialty"> | string | null
   isDeleted?: Prisma.BoolWithAggregatesFilter<"Specialty"> | boolean
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Specialty"> | Date | string | null
 }
@@ -241,7 +241,7 @@ export type SpecialtyCreateInput = {
   id?: string
   title: string
   description?: string | null
-  icom?: string | null
+  icon?: string | null
   isDeleted?: boolean
   deletedAt?: Date | string | null
 }
@@ -250,7 +250,7 @@ export type SpecialtyUncheckedCreateInput = {
   id?: string
   title: string
   description?: string | null
-  icom?: string | null
+  icon?: string | null
   isDeleted?: boolean
   deletedAt?: Date | string | null
 }
@@ -259,7 +259,7 @@ export type SpecialtyUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  icom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -268,7 +268,7 @@ export type SpecialtyUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  icom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -277,7 +277,7 @@ export type SpecialtyCreateManyInput = {
   id?: string
   title: string
   description?: string | null
-  icom?: string | null
+  icon?: string | null
   isDeleted?: boolean
   deletedAt?: Date | string | null
 }
@@ -286,7 +286,7 @@ export type SpecialtyUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  icom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -295,7 +295,7 @@ export type SpecialtyUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  icom?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -304,7 +304,7 @@ export type SpecialtyCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  icom?: Prisma.SortOrder
+  icon?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
 }
@@ -313,7 +313,7 @@ export type SpecialtyMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  icom?: Prisma.SortOrder
+  icon?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
 }
@@ -322,7 +322,7 @@ export type SpecialtyMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  icom?: Prisma.SortOrder
+  icon?: Prisma.SortOrder
   isDeleted?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
 }
@@ -349,7 +349,7 @@ export type SpecialtySelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   id?: boolean
   title?: boolean
   description?: boolean
-  icom?: boolean
+  icon?: boolean
   isDeleted?: boolean
   deletedAt?: boolean
 }, ExtArgs["result"]["specialty"]>
@@ -358,7 +358,7 @@ export type SpecialtySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   id?: boolean
   title?: boolean
   description?: boolean
-  icom?: boolean
+  icon?: boolean
   isDeleted?: boolean
   deletedAt?: boolean
 }, ExtArgs["result"]["specialty"]>
@@ -367,7 +367,7 @@ export type SpecialtySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   id?: boolean
   title?: boolean
   description?: boolean
-  icom?: boolean
+  icon?: boolean
   isDeleted?: boolean
   deletedAt?: boolean
 }, ExtArgs["result"]["specialty"]>
@@ -376,12 +376,12 @@ export type SpecialtySelectScalar = {
   id?: boolean
   title?: boolean
   description?: boolean
-  icom?: boolean
+  icon?: boolean
   isDeleted?: boolean
   deletedAt?: boolean
 }
 
-export type SpecialtyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "icom" | "isDeleted" | "deletedAt", ExtArgs["result"]["specialty"]>
+export type SpecialtyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "icon" | "isDeleted" | "deletedAt", ExtArgs["result"]["specialty"]>
 
 export type $SpecialtyPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Specialty"
@@ -390,7 +390,7 @@ export type $SpecialtyPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     id: string
     title: string
     description: string | null
-    icom: string | null
+    icon: string | null
     isDeleted: boolean
     deletedAt: Date | null
   }, ExtArgs["result"]["specialty"]>
@@ -819,7 +819,7 @@ export interface SpecialtyFieldRefs {
   readonly id: Prisma.FieldRef<"Specialty", 'String'>
   readonly title: Prisma.FieldRef<"Specialty", 'String'>
   readonly description: Prisma.FieldRef<"Specialty", 'String'>
-  readonly icom: Prisma.FieldRef<"Specialty", 'String'>
+  readonly icon: Prisma.FieldRef<"Specialty", 'String'>
   readonly isDeleted: Prisma.FieldRef<"Specialty", 'Boolean'>
   readonly deletedAt: Prisma.FieldRef<"Specialty", 'DateTime'>
 }
