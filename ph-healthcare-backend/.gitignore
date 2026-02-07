@@ -3,5 +3,5 @@ node_modules
 .env.*
 !.env.example
 dist
-/generated
+/src/generated
 pnpm-lock.yaml
