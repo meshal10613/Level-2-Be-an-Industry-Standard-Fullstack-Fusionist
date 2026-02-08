@@ -22,20 +22,54 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
         throw new Error("Failed to register patient");
     }
 
-    const patient = await prisma.$transaction(async (tx) => {
-        return await tx.patient.create({
-            data: {
-                userId: data.user.id,
-                name: data.user.name,
-                email: data.user.email,
+    try {
+        const patient = await prisma.$transaction(async (tx) => {
+            const patientTx = await tx.patient.create({
+                data: {
+                    userId: data.user.id,
+                    name: payload.name,
+                    email: payload.email,
+                },
+            });
+
+            return patientTx;
+        });
+
+        // const accessToken = tokenUtils.getAccessToken({
+        //     userId: data.user.id,
+        //     role: data.user.role,
+        //     name: data.user.name,
+        //     email: data.user.email,
+        //     status: data.user.status,
+        //     isDeleted: data.user.isDeleted,
+        //     emailVerified: data.user.emailVerified,
+        // });
+
+        // const refreshToken = tokenUtils.getRefreshToken({
+        //     userId: data.user.id,
+        //     role: data.user.role,
+        //     name: data.user.name,
+        //     email: data.user.email,
+        //     status: data.user.status,
+        //     isDeleted: data.user.isDeleted,
+        //     emailVerified: data.user.emailVerified,
+        // });
+
+        return {
+            ...data,
+            // accessToken,
+            // refreshToken,
+            patient,
+        };
+    } catch (error) {
+        console.log("Transaction error : ", error);
+        await prisma.user.delete({
+            where: {
+                id: data.user.id,
             },
         });
-    });
-
-    return {
-        ...data,
-        patient,
-    };
+        throw error;
+    }
 };
 
 interface ILoginUserPayload {
