@@ -30,12 +30,13 @@ const createDoctor = async (payload: ICreateDoctorPayload) => {
 
     const userData = await auth.api.signUpEmail({
         body: {
-            name: payload.doctor.name,
-            email: payload.doctor.email,
-            password: payload.password,
-            role: Role.DOCTOR,
-            needPasswordChange: true,
-        },
+        name: payload.doctor.name,
+        email: payload.doctor.email,
+        password: payload.password,
+        role: Role.DOCTOR,
+        needPasswordChange: true,
+		image: payload.doctor.profilePhoto || ""
+    },
     });
 
     try {
