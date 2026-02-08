@@ -19,11 +19,13 @@
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "packageManager": "pnpm@10.28.2",
+    "packageManager": "pnpm@10.29.1+sha512.48dae233635a645768a3028d19545cacc1688639eeb1f3734e42d6d6b971afbf22aa1ac9af52a173d9c3a20c15857cfa400f19994d79a2f626fcc73fccda9bbc",
     "dependencies": {
         "@prisma/adapter-pg": "^7.3.0",
         "@prisma/client": "^7.3.0",
         "better-auth": "^1.4.18",
+        "cookie-parser": "^1.4.7",
+        "cors": "^2.8.6",
         "dotenv": "^17.2.3",
         "express": "^5.2.1",
         "pg": "^8.18.0"

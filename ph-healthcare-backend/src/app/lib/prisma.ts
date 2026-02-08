@@ -1,8 +1,8 @@
-import config from "../config";
+import { envVars } from "../config/env";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../../generated/prisma/client";
 
-const connectionString = config.database_url;
+const connectionString = envVars.DATABASE_URL;
 
 const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });

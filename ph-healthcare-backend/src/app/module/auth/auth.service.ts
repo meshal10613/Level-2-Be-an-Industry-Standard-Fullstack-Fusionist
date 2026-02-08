@@ -22,9 +22,20 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
         throw new Error("Failed to register patient");
     }
 
-    // const patient = await prisma.$transaction(async (tx) => {});
+    const patient = await prisma.$transaction(async (tx) => {
+        return await tx.patient.create({
+            data: {
+                userId: data.user.id,
+                name: data.user.name,
+                email: data.user.email,
+            },
+        });
+    });
 
-    return data;
+    return {
+        ...data,
+        patient,
+    };
 };
 
 interface ILoginUserPayload {
@@ -46,9 +57,9 @@ const loginUser = async (payload: ILoginUserPayload) => {
         throw new Error("User is blocked");
     }
 
-	if(data.user.isDeleted || data.user.status === UserStatus.DELETED) {
-		throw new Error("User is deleted");
-	}
+    if (data.user.isDeleted || data.user.status === UserStatus.DELETED) {
+        throw new Error("User is deleted");
+    }
 
     return data;
 };
