@@ -3,12 +3,8 @@ import { UserStatus } from "../../../generated/prisma/enums";
 import AppError from "../../errorHelper/AppError";
 import { auth } from "../../lib/auth";
 import { prisma } from "../../lib/prisma";
-
-interface IRegisterPatientPayload {
-    name: string;
-    email: string;
-    password: string;
-}
+import { tokenUtils } from "../../utils/token";
+import { ILoginUserPayload, IRegisterPatientPayload } from "./auth.interface";
 
 const registerPatient = async (payload: IRegisterPatientPayload) => {
     const { name, email, password } = payload;
@@ -37,30 +33,30 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
             return patientTx;
         });
 
-        // const accessToken = tokenUtils.getAccessToken({
-        //     userId: data.user.id,
-        //     role: data.user.role,
-        //     name: data.user.name,
-        //     email: data.user.email,
-        //     status: data.user.status,
-        //     isDeleted: data.user.isDeleted,
-        //     emailVerified: data.user.emailVerified,
-        // });
+        const accessToken = tokenUtils.getAccessToken({
+            userId: data.user.id,
+            role: data.user.role,
+            name: data.user.name,
+            email: data.user.email,
+            status: data.user.status,
+            isDeleted: data.user.isDeleted,
+            emailVerified: data.user.emailVerified,
+        });
 
-        // const refreshToken = tokenUtils.getRefreshToken({
-        //     userId: data.user.id,
-        //     role: data.user.role,
-        //     name: data.user.name,
-        //     email: data.user.email,
-        //     status: data.user.status,
-        //     isDeleted: data.user.isDeleted,
-        //     emailVerified: data.user.emailVerified,
-        // });
+        const refreshToken = tokenUtils.getRefreshToken({
+            userId: data.user.id,
+            role: data.user.role,
+            name: data.user.name,
+            email: data.user.email,
+            status: data.user.status,
+            isDeleted: data.user.isDeleted,
+            emailVerified: data.user.emailVerified,
+        });
 
         return {
             ...data,
-            // accessToken,
-            // refreshToken,
+            accessToken,
+            refreshToken,
             patient,
         };
     } catch (error) {
@@ -74,10 +70,6 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
     }
 };
 
-interface ILoginUserPayload {
-    email: string;
-    password: string;
-}
 
 const loginUser = async (payload: ILoginUserPayload) => {
     const { email, password } = payload;
@@ -97,7 +89,31 @@ const loginUser = async (payload: ILoginUserPayload) => {
         throw new AppError(status.NOT_FOUND, "User is deleted");
     }
 
-    return data;
+    const accessToken = tokenUtils.getAccessToken({
+        userId: data.user.id,
+        role: data.user.role,
+        name: data.user.name,
+        email: data.user.email,
+        status: data.user.status,
+        isDeleted: data.user.isDeleted,
+        emailVerified: data.user.emailVerified,
+    });
+
+    const refreshToken = tokenUtils.getRefreshToken({
+        userId: data.user.id,
+        role: data.user.role,
+        name: data.user.name,
+        email: data.user.email,
+        status: data.user.status,
+        isDeleted: data.user.isDeleted,
+        emailVerified: data.user.emailVerified,
+    });
+
+    return {
+        ...data,
+        accessToken,
+        refreshToken,
+    };
 };
 
 export const authService = { registerPatient, loginUser };

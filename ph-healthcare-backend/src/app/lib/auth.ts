@@ -7,6 +7,14 @@ export const auth = betterAuth({
     database: prismaAdapter(prisma, {
         provider: "postgresql",
     }),
+    session: {
+        expiresIn: 60 * 60 * 60 * 24, // 1 day in seconds
+        updateAge: 60 * 60 * 60 * 24, // 1 day in seconds
+        cookieCache: {
+            enabled: true,
+            maxAge: 60 * 60 * 60 * 24, // 1 day in seconds
+        },
+    },
     // trustedOrigins: [config.better_auth.url! || "http://localhost:3000"],
     // advanced: {
     //     disableCSRFCheck: true,
@@ -29,18 +37,18 @@ export const auth = betterAuth({
             needPasswordChange: {
                 type: "boolean",
                 required: true,
-                defaultValue: false
+                defaultValue: false,
             },
             isDeleted: {
                 type: "boolean",
                 required: false,
-                defaultValue: false
+                defaultValue: false,
             },
             deletedAt: {
                 type: "date",
                 required: false,
-                defaultValue: null
-            }
-        }
-    }
+                defaultValue: null,
+            },
+        },
+    },
 });
