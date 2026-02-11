@@ -127,35 +127,37 @@ const changePassword = catchAsync(
     },
 );
 
-const logoutUser = catchAsync(async (req: Request, res: Response) => {
-    const betterAuthSessionToken = req.cookies["better-auth.session_token"];
-    const result = await authService.logoutUser(betterAuthSessionToken);
-    CookieUtils.clearCookie(res, "accessToken", {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-    });
-    CookieUtils.clearCookie(res, "refreshToken", {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-    });
-    CookieUtils.clearCookie(res, "better-auth.session_token", {
-        httpOnly: true,
-        secure: true,
-        sameSite: "none",
-    });
+const logoutUser = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+        const betterAuthSessionToken = req.cookies["better-auth.session_token"];
+        const result = await authService.logoutUser(betterAuthSessionToken);
+        CookieUtils.clearCookie(res, "accessToken", {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+        });
+        CookieUtils.clearCookie(res, "refreshToken", {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+        });
+        CookieUtils.clearCookie(res, "better-auth.session_token", {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+        });
 
-    sendResponse(res, {
-        httpStatusCode: status.OK,
-        success: true,
-        message: "User logged out successfully",
-        data: result,
-    });
-});
+        sendResponse(res, {
+            httpStatusCode: status.OK,
+            success: true,
+            message: "User logged out successfully",
+            data: result,
+        });
+    },
+);
 
 const verifyEmail = catchAsync(
-    async (req: Request, res: Response) => {
+    async (req: Request, res: Response, next: NextFunction) => {
         const { email, otp } = req.body;
         await authService.verifyEmail(email, otp);
 
@@ -164,8 +166,34 @@ const verifyEmail = catchAsync(
             success: true,
             message: "Email verified successfully",
         });
-    }
-)
+    },
+);
+
+const forgetPassword = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+        const { email } = req.body;
+        await authService.forgetPassword(email);
+
+        sendResponse(res, {
+            httpStatusCode: status.OK,
+            success: true,
+            message: "Password reset OTP sent to email successfully",
+        });
+    },
+);
+
+const resetPassword = catchAsync(
+    async (req: Request, res: Response, next: NextFunction) => {
+        const { email, otp, newPassword } = req.body;
+        await authService.resetPassword(email, otp, newPassword);
+
+        sendResponse(res, {
+            httpStatusCode: status.OK,
+            success: true,
+            message: "Password reset successfully",
+        });
+    },
+);
 
 export const authController = {
     registerPatient,
@@ -174,5 +202,7 @@ export const authController = {
     getNewToken,
     changePassword,
     logoutUser,
-    verifyEmail
+    verifyEmail,
+    forgetPassword,
+    resetPassword,
 };
