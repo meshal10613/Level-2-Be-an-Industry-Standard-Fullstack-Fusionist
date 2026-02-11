@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
 import { Role, UserStatus } from "../../generated/prisma/enums";
+import { bearer } from "better-auth/plugins";
 
 export const auth = betterAuth({
     database: prismaAdapter(prisma, {
@@ -15,6 +16,9 @@ export const auth = betterAuth({
             maxAge: 60 * 60 * 60 * 24, // 1 day in seconds
         },
     },
+    plugins: [
+        bearer(),
+    ],
     // trustedOrigins: [config.better_auth.url! || "http://localhost:3000"],
     // advanced: {
     //     disableCSRFCheck: true,
