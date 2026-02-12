@@ -5,8 +5,14 @@ import { IndexRoutes } from "./app/routes";
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 import { notFound } from "./app/middleware/notFound";
 import { envVars } from "./app/config/env";
+import { toNodeHandler } from "better-auth/node";
+import { auth } from "./app/lib/auth";
+import path from "path";
 
 const app: Application = express();
+
+app.set("view engine", "ejs");
+app.set("views", path.resolve(process.cwd(), `src/app/templates`));
 
 app.use(
     cors({
@@ -28,6 +34,8 @@ app.use(express.urlencoded({ extended: true }));
 //? Middleware to parse JSON bodies
 app.use(express.json());
 app.use(cookieParser());
+
+app.use("/api/auth", toNodeHandler(auth));
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Hello World!");
