@@ -234,6 +234,20 @@ const changePassword = async (
         throw new AppError(status.UNAUTHORIZED, "Invalid session token");
     }
 
+    const isGoogleAccount = await prisma.account.count({
+        where: {
+            userId: session.user.id,
+            providerId: "google",
+        },
+    });
+
+    if (isGoogleAccount > 0) {
+        throw new AppError(
+            status.BAD_REQUEST,
+            "Password cannot be changed for Google accounts.",
+        );
+    }
+
     const { currentPassword, newPassword } = payload;
 
     const result = await auth.api.changePassword({
@@ -296,12 +310,40 @@ const logoutUser = async (sessionToken: string) => {
 };
 
 const verifyEmail = async (email: string, otp: string) => {
+    const user = await prisma.user.findUnique({
+        where: { email },
+        select: { id: true },
+    });
+
+    if (!user) {
+        throw new AppError(status.NOT_FOUND, "User not found.");
+    }
+
+    // Check if user has a credentials/password account
+    const passwordAccount = await prisma.account.findFirst({
+        where: {
+            userId: user.id,
+            providerId: "credentials", // adjust if your auth uses another name
+        },
+    });
+
+    if (!passwordAccount) {
+        throw new AppError(
+            status.BAD_REQUEST,
+            "Email verification is not allowed for social login accounts.",
+        );
+    }
+
     const result = await auth.api.verifyEmailOTP({
         body: {
             email,
             otp,
         },
     });
+
+    if (!result?.user) {
+        throw new AppError(status.BAD_REQUEST, "Invalid OTP.");
+    }
 
     if (result.status && !result.user.emailVerified) {
         await prisma.user.update({
@@ -316,28 +358,41 @@ const verifyEmail = async (email: string, otp: string) => {
 };
 
 const forgetPassword = async (email: string) => {
-    const isUserExist = await prisma.user.findUnique({
-        where: {
-            email,
+    const user = await prisma.user.findUnique({
+        where: { email },
+        select: {
+            id: true,
+            emailVerified: true,
+            isDeleted: true,
+            status: true,
         },
     });
 
-    if (!isUserExist) {
+    if (!user || user.isDeleted || user.status === UserStatus.DELETED) {
         throw new AppError(status.NOT_FOUND, "User not found");
     }
 
-    if (!isUserExist.emailVerified) {
+    const passwordAccount = await prisma.account.findFirst({
+        where: {
+            userId: user.id,
+            providerId: "credentials",
+        },
+        select: { id: true },
+    });
+
+    if (!passwordAccount) {
+        throw new AppError(
+            status.BAD_REQUEST,
+            "Password reset is not available for social login accounts.",
+        );
+    }
+
+    if (!user.emailVerified) {
         throw new AppError(status.BAD_REQUEST, "Email not verified");
     }
 
-    if (isUserExist.isDeleted || isUserExist.status === UserStatus.DELETED) {
-        throw new AppError(status.NOT_FOUND, "User not found");
-    }
-
     await auth.api.requestPasswordResetEmailOTP({
-        body: {
-            email,
-        },
+        body: { email },
     });
 };
 
@@ -352,7 +407,7 @@ const resetPassword = async (
         },
     });
 
-    if (!isUserExist) {
+    if (!isUserExist || isUserExist.isDeleted || isUserExist.status === UserStatus.DELETED) {
         throw new AppError(status.NOT_FOUND, "User not found");
     }
 
@@ -360,8 +415,19 @@ const resetPassword = async (
         throw new AppError(status.BAD_REQUEST, "Email not verified");
     }
 
-    if (isUserExist.isDeleted || isUserExist.status === UserStatus.DELETED) {
-        throw new AppError(status.NOT_FOUND, "User not found");
+    const passwordAccount = await prisma.account.findFirst({
+        where: {
+            userId: isUserExist.id,
+            providerId: "credentials",
+        },
+        select: { id: true },
+    });
+
+    if (!passwordAccount) {
+        throw new AppError(
+            status.BAD_REQUEST,
+            "Password reset is not available for social login accounts.",
+        );
     }
 
     await auth.api.resetPasswordEmailOTP({
