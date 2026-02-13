@@ -5,13 +5,15 @@ import { sendResponse } from "../../shared/sendResponse";
 
 const createSpecialty = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
-        const result = await specialtyService.createSpecialty(req.body);
-        sendResponse(res, {
-            httpStatusCode: 200,
-            success: true,
-            message: "Specialty created successfully",
-            data: result,
-        });
+        console.log(req.body)
+        console.log(req.file)
+        // const result = await specialtyService.createSpecialty(req.body);
+        // sendResponse(res, {
+        //     httpStatusCode: 200,
+        //     success: true,
+        //     message: "Specialty created successfully",
+        //     data: result,
+        // });
     },
 );
 

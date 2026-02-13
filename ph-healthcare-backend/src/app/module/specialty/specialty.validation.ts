@@ -1,6 +1,12 @@
+import { title } from "node:process";
 import z from "zod";
 
-export const updateSpecialtySchema = z
+const createSpecialtyZodSchema = z.object({
+    title : z.string("Title is required"),
+    description : z.string("Description is required").optional(),
+})
+
+const updateSpecialtySchema = z
     .object({
         title: z
             .string({ message: "Specialty name must be a string" })
@@ -19,3 +25,8 @@ export const updateSpecialtySchema = z
     .refine((data) => Object.keys(data).length > 0, {
         message: "At least one field must be provided to update",
     });
+
+export const specialtyValidation = {
+    createSpecialtyZodSchema,
+    updateSpecialtySchema
+}
