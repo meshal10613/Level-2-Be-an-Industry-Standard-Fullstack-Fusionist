@@ -4,12 +4,12 @@ import AppError from "../../errorHelper/AppError";
 import { prisma } from "../../lib/prisma";
 import { IUpdateSpecialtyPayload } from "./specialty.interface";
 
-const createSpecialty = async (
-    payload: Prisma.SpecialtyCreateInput,
-): Promise<Specialty> => {
-    return await prisma.specialty.create({
+const createSpecialty = async (payload: Specialty): Promise<Specialty> => {
+    const specialty = await prisma.specialty.create({
         data: payload,
     });
+
+    return specialty;
 };
 
 const getAllSpecialty = async (): Promise<Specialty[]> => {
@@ -43,7 +43,10 @@ const updateSpecialty = async (
     });
 
     if (!specialty) {
-        throw new AppError(status.NOT_FOUND, `Specialty with id ${id} not found`);
+        throw new AppError(
+            status.NOT_FOUND,
+            `Specialty with id ${id} not found`,
+        );
     }
 
     return await prisma.specialty.update({

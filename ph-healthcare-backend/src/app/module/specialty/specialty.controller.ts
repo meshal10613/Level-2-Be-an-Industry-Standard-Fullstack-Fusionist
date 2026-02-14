@@ -4,18 +4,20 @@ import { catchAsync } from "../../shared/catchAsync";
 import { sendResponse } from "../../shared/sendResponse";
 
 const createSpecialty = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {
-        console.log(req.body)
-        console.log(req.file)
-        // const result = await specialtyService.createSpecialty(req.body);
-        // sendResponse(res, {
-        //     httpStatusCode: 200,
-        //     success: true,
-        //     message: "Specialty created successfully",
-        //     data: result,
-        // });
-    },
-);
+    async (req: Request, res: Response) => {
+        const payload = {
+            ...req.body,
+            icon : req.file?.path
+        };
+        const result = await specialtyService.createSpecialty(payload);
+        sendResponse(res, {
+            httpStatusCode: 201,
+            success: true,
+            message: 'Specialty created successfully',
+            data: result
+        });
+    }
+)
 
 const getAllSpecialty = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
