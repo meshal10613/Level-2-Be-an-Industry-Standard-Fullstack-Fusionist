@@ -31,4 +31,4 @@ router.get("/login/google", authController.googleLogin);
 router.get("/google/success", authController.googleLoginSuccess);
 router.get("/oauth/error", authController.handleOAuthError);
 
-export const authRouter = router;
+export const authRoutes = router;

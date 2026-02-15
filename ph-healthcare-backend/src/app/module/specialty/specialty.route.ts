@@ -28,4 +28,4 @@ router.patch(
     specialtyController.updateSpecialty,
 );
 
-export const specialtyRoute = router;
+export const specialtyRoutes = router;

@@ -13,4 +13,4 @@ router.post(
 // router.post("/create-admin", userController.createDoctor);
 // router.post("/create-super-admin", userController.createDoctor);
 
-export const userRoute = router;
+export const userRoutes = router;
