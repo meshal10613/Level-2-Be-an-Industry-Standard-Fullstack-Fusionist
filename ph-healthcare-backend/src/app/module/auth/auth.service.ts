@@ -323,7 +323,7 @@ const verifyEmail = async (email: string, otp: string) => {
     const passwordAccount = await prisma.account.findFirst({
         where: {
             userId: user.id,
-            providerId: "credentials", // adjust if your auth uses another name
+            providerId: "credential", // adjust if your auth uses another name
         },
     });
 
@@ -375,7 +375,7 @@ const forgetPassword = async (email: string) => {
     const passwordAccount = await prisma.account.findFirst({
         where: {
             userId: user.id,
-            providerId: "credentials",
+            providerId: "credential",
         },
         select: { id: true },
     });
@@ -418,7 +418,7 @@ const resetPassword = async (
     const passwordAccount = await prisma.account.findFirst({
         where: {
             userId: isUserExist.id,
-            providerId: "credentials",
+            providerId: "credential",
         },
         select: { id: true },
     });
