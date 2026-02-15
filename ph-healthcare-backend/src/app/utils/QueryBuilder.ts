@@ -10,7 +10,6 @@ import {
     PrismaWhereConditions,
 } from "../interface/query.interface";
 
-
 // T = Model Type
 export class QueryBuilder<
     T,
@@ -28,7 +27,7 @@ export class QueryBuilder<
 
     constructor(
         private model: PrismaModelDelegate,
-        private queryParams: IQueryParams,
+        private queryParams: IQueryParams = {},
         private config: IQueryConfig = {},
     ) {
         this.query = {
