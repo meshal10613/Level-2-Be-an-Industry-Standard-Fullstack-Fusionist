@@ -52,13 +52,12 @@ const updateSchedule = catchAsync(
 const deleteSchedule = catchAsync(
     async (req: Request, res: Response, next: NextFunction) => {
         const { id } = req.params;
-        const result = await scheduleService.deleteSchedule(id as string);
+        await scheduleService.deleteSchedule(id as string);
 
         sendResponse(res, {
             success: true,
             httpStatusCode: status.OK,
             message: "Schedule deleted successfully",
-            data: result,
         });
     },
 );

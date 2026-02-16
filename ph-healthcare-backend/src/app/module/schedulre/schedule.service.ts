@@ -90,6 +90,7 @@ const getAllSchedules = async (query: IQueryParams) => {
 
     return result;
 };
+
 const getScheduleById = async (id: string) => {
     const result = await prisma.schedule.findUnique({
         where: { id },
