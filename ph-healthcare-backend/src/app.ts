@@ -1,4 +1,5 @@
 import express, { Application, Request, Response } from "express";
+import cron from "node-cron";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { IndexRoutes } from "./app/routes";
@@ -10,6 +11,8 @@ import { auth } from "./app/lib/auth";
 import path from "path";
 import qs from "qs";
 import { paymentController } from "./app/module/payment/payment.controller";
+import { appointmentService } from "./app/module/appointment/appointment.service";
+import chalk from "chalk";
 
 const app: Application = express();
 app.set("query parser", (str: string) => qs.parse(str));
@@ -37,6 +40,8 @@ app.use(
     }),
 );
 
+app.use("/api/auth", toNodeHandler(auth));
+
 //? Enable URL-encoded form data parsing
 app.use(express.urlencoded({ extended: true }));
 
@@ -44,13 +49,29 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api/auth", toNodeHandler(auth));
+cron.schedule("*/30 * * * *", async () => { //? 30 minutes
+    const start = Date.now();
+
+    try {
+        await appointmentService.cancelUnpaidAppointments();
+
+        console.log(
+            chalk.green(
+                `[CRON] Job completed successfully in ${Date.now() - start}ms`,
+            ),
+        );
+    } catch (error) {
+        console.error(
+            chalk.red("[CRON] Failed to cancel unpaid appointments"),
+        );
+    }
+});
+
+app.use("/api/v1", IndexRoutes);
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Hello World!");
 });
-
-app.use("/api/v1", IndexRoutes);
 
 app.use(globalErrorHandler);
 app.use(notFound);

@@ -9,6 +9,7 @@ import { IRequestUser } from "../../interface/requestUser.interface";
 import AppError from "../../errorHelper/AppError";
 import { stripe } from "../../config/stripe";
 
+//? Pay Now
 const bookAppointment = async (
     payload: IBookAppointmentPayload,
     user: IRequestUser,
@@ -66,7 +67,6 @@ const bookAppointment = async (
         });
 
         //TODO : Payment Integration will be here
-
         const transactionId = String(uuidv7());
 
         const paymentData = await tx.payment.create({
@@ -369,6 +369,7 @@ const getAllAppointments = async () => {
     return appointments;
 };
 
+//? Pay Later
 const bookAppointmentWithPayLater = async (
     payload: IBookAppointmentPayload,
     user: IRequestUser,
@@ -516,7 +517,7 @@ const initiatePayment = async (appointmentId: string, user: IRequestUser) => {
 };
 
 const cancelUnpaidAppointments = async () => {
-    const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000);
+    const thirtyMinutesAgo = new Date(Date.now() - 30 * 60 * 1000); //* 30 minutes
 
     const unpaidAppointments = await prisma.appointment.findMany({
         where: {

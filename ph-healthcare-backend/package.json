@@ -23,8 +23,9 @@
     "packageManager": "pnpm@10.29.3+sha512.498e1fb4cca5aa06c1dcf2611e6fafc50972ffe7189998c409e90de74566444298ffe43e6cd2acdc775ba1aa7cc5e092a8b7054c811ba8c5770f84693d33d2dc",
     "dependencies": {
         "@prisma/adapter-pg": "^7.3.0",
-        "@prisma/client": "^7.4.0",
+        "@prisma/client": "^7.3.0",
         "better-auth": "^1.4.18",
+        "chalk": "^5.6.2",
         "cloudinary": "^2.9.0",
         "cookie-parser": "^1.4.7",
         "cors": "^2.8.6",
@@ -37,9 +38,10 @@
         "ms": "^2.1.3",
         "multer": "^2.0.2",
         "multer-storage-cloudinary": "^4.0.0",
+        "node-cron": "^4.2.1",
         "nodemailer": "^8.0.1",
         "pg": "^8.18.0",
-        "qs": "^6.14.2",
+        "qs": "^6.14.1",
         "stripe": "^20.3.1",
         "uuid": "^13.0.0",
         "zod": "^4.3.6"
@@ -59,8 +61,7 @@
         "@types/qs": "^6.14.0",
         "@types/uuid": "^11.0.0",
         "eslint": "^9.39.2",
-        "prisma": "^7.4.0",
-        "ts-node": "^10.9.2",
+        "prisma": "^7.3.0",
         "tsx": "^4.21.0",
         "typescript": "^5.9.3",
         "typescript-eslint": "^8.54.0"
