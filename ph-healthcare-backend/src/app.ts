@@ -9,12 +9,19 @@ import { toNodeHandler } from "better-auth/node";
 import { auth } from "./app/lib/auth";
 import path from "path";
 import qs from "qs";
+import { paymentController } from "./app/module/payment/payment.controller";
 
 const app: Application = express();
 app.set("query parser", (str: string) => qs.parse(str));
 
 app.set("view engine", "ejs");
 app.set("views", path.resolve(process.cwd(), `src/app/templates`));
+
+app.use(
+    "/webhook",
+    express.raw({ type: "application/json" }),
+    paymentController.handleStripeWebhookEvent,
+);
 
 app.use(
     cors({
