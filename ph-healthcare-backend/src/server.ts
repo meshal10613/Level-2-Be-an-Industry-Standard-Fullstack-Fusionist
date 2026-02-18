@@ -3,7 +3,7 @@ import app from "./app";
 import { envVars } from "./app/config/env";
 import { seedSuperAdmin } from "./app/utils/seed";
 
-(async function bootstrap() {
+async function bootstrap() {
     try {
         await seedSuperAdmin();
         app.listen(envVars.PORT, () => {
@@ -16,4 +16,6 @@ import { seedSuperAdmin } from "./app/utils/seed";
     } catch (error) {
         console.error("Failed to start the server: ", error);
     }
-})();
+};
+
+bootstrap();
