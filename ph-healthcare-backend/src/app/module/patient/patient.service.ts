@@ -31,6 +31,11 @@ const updateMyProfile = async (
                     ...payload.patientInfo,
                 },
             });
+            if (payload.patientInfo.profilePhoto) {
+                await deleteFileFromCloudinary(
+                    patientData.profilePhoto as string,
+                );
+            }
 
             if (payload.patientInfo.name || payload.patientInfo.profilePhoto) {
                 const userData = {
