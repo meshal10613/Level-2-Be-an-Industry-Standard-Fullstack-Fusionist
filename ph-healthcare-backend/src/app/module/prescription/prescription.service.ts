@@ -4,12 +4,12 @@ import { prisma } from "../../lib/prisma";
 import { sendEmail } from "../../utils/email";
 import { ICreatePrescriptionPayload } from "./prescription.interface";
 import { generatePrescriptionPDF } from "./prescription.utils";
+import { IRequestUser } from "../../interface/requestUser.interface";
 import AppError from "../../errorHelper/AppError";
 import {
     deleteFileFromCloudinary,
     uploadFileToCloudinary,
 } from "../../config/cloudinary";
-import { IRequestUser } from "../../interface/requestUser.interface";
 
 const givePrescription = async (
     user: IRequestUser,
@@ -393,7 +393,7 @@ const deletePrescription = async (
     });
 };
 
-export const prescriptionService = {
+export const PrescriptionService = {
     givePrescription,
     myPrescriptions,
     getAllPrescriptions,
