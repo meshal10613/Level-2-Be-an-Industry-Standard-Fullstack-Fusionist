@@ -15,6 +15,17 @@ export interface ICreateDoctorPayload {
         qualification: string;
         currentWorkingPlace: string;
         designation: string;
-    }
+    };
     specialties: string[];
+}
+
+export interface ICreateAdminPayload {
+    password: string;
+    admin: {
+        name: string;
+        email: string;
+        profilePhoto?: string;
+        contactNumber?: string;
+    };
+    role: "ADMIN" | "SUPER_ADMIN";
 }

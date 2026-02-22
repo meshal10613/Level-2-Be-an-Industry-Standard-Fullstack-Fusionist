@@ -393,7 +393,7 @@ const deletePrescription = async (
     });
 };
 
-export const PrescriptionService = {
+export const prescriptionService = {
     givePrescription,
     myPrescriptions,
     getAllPrescriptions,
