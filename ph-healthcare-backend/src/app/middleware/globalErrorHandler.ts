@@ -3,16 +3,6 @@ import status from "http-status";
 import z from "zod";
 import { Prisma } from "../../generated/prisma/client";
 import { envVars } from "../config/env";
-// import AppError from "../errorHelpers/AppError";
-// import {
-//     handlePrismaClientKnownRequestError,
-//     handlePrismaClientUnknownError,
-//     handlePrismaClientValidationError,
-//     handlerPrismaClientInitializationError,
-//     handlerPrismaClientRustPanicError,
-// } from "../errorHelpers/handlePrismaErrors";
-// import { handleZodError } from "../errorHelpers/handleZodError";
-// import { TErrorResponse, TErrorSources } from "../interfaces/error.interface";
 import { deleteUploadedFilesFromGlobalErrorHandler } from "../utils/deleteUploadedFilesFromGlobalErrorHandler";
 import { TErrorResponse, TErrorSources } from "../interface/error.interface";
 import { handlePrismaClientKnownRequestError, handlePrismaClientUnknownError, handlePrismaClientValidationError, handlerPrismaClientInitializationError, handlerPrismaClientRustPanicError } from "../errorHelper/handlePrismaError";
@@ -37,6 +27,7 @@ export const globalErrorHandler = async (
     //     const imageUrls = req.files.map((file) => file.path);
     //     await Promise.all(imageUrls.map(url => deleteFileFromCloudinary(url)));
     // }
+    
     await deleteUploadedFilesFromGlobalErrorHandler(req);
 
     let errorSources: TErrorSources[] = [];

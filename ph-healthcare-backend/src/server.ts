@@ -2,11 +2,13 @@ import chalk from "chalk";
 import app from "./app";
 import { envVars } from "./app/config/env";
 import { seedSuperAdmin } from "./app/utils/seed";
+import { Server } from "http";
 
-async function bootstrap() {
+let server: Server;
+const bootstrap = async () => {
     try {
         await seedSuperAdmin();
-        app.listen(envVars.PORT, () => {
+        server = app.listen(envVars.PORT, () => {
             console.log(
                 chalk.blue(
                     `Server is running on http://localhost:${envVars.PORT}`,
@@ -14,8 +16,62 @@ async function bootstrap() {
             );
         });
     } catch (error) {
-        console.error("Failed to start the server: ", error);
+        console.error("Failed to start server:", error);
     }
 };
+
+// SIGTERM signal handler
+process.on("SIGTERM", () => {
+    console.log("SIGTERM signal received. Shutting down server...");
+
+    if (server) {
+        server.close(() => {
+            console.log("Server closed gracefully.");
+            process.exit(1);
+        });
+    }
+
+    process.exit(1);
+});
+
+// SIGINT signal handler
+process.on("SIGINT", () => {
+    console.log("SIGINT signal received. Shutting down server...");
+
+    if (server) {
+        server.close(() => {
+            console.log("Server closed gracefully.");
+            process.exit(1);
+        });
+    }
+
+    process.exit(1);
+});
+
+//uncaught exception handler
+process.on("uncaughtException", (error) => {
+    console.log("Uncaught Exception Detected... Shutting down server", error);
+
+    if (server) {
+        server.close(() => {
+            process.exit(1);
+        });
+    }
+
+    process.exit(1);
+});
+
+//unhandled rejection handler
+process.on("unhandledRejection", (error) => {
+    console.log("Unhandled Rejection Detected... Shutting down server", error);
+
+    if (server) {
+        server.close(() => {
+            process.exit(1);
+        });
+    }
+
+    process.exit(1);
+});
 
 bootstrap();
