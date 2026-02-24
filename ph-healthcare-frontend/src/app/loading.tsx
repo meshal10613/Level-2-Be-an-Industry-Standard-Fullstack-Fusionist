@@ -1,14 +1,5 @@
-"use client";
-
-import Lottie from "lottie-react";
-import loading from "../../public/assets/loading.json";
+import Loading from "../components/shared/Loading/Loading";
 
 export default function GlobalLoading() {
-	return(
-		<div className="min-h-screen flex flex-col items-center justify-center bg-background px-4">
-            <div className="w-96 max-w-sm">
-                <Lottie animationData={loading} loop={true} />
-            </div>
-        </div>
-	)
+    return <Loading />;
 }

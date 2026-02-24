@@ -1,7 +1,5 @@
+import Loading from "../../../../../components/shared/Loading/Loading";
+
 export default function PatinedDashboardLoadingPage() {
-	return(
-		<div>
-			<h1>This is Dashboard Page</h1>
-		</div>
-	)
+    return <Loading />;
 }
