@@ -17,7 +17,7 @@ const router = Router();
 
 router.use("/auth", authRoutes);
 router.use("/specialty", specialtyRoutes);
-router.use("/doctor", doctorRoutes);
+router.use("/doctors", doctorRoutes);
 router.use("/user", userRoutes);
 router.use("/admin", adminRoutes);
 router.use("/schedule", scheduleRoutes);
