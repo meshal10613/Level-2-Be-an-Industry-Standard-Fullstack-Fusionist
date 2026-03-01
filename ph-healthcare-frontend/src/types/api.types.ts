@@ -1,6 +1,6 @@
 export interface ApiResponse<TData> {
     success: boolean;
-    message?: string;
+    message: string;
     data: TData;
     meta?: PaginationMeta;
 }

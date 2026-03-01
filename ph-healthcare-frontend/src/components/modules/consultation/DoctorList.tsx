@@ -20,7 +20,7 @@ export default function DoctorList() {
 
     return (
         <div>
-            {data.data.map((doctor: any) => (
+            {data?.data.map((doctor: any) => (
                 <Link href={`/consultation/doctor/${doctor.id}`} key={doctor.id}>{doctor.name}</Link>
             ))}
         </div>
