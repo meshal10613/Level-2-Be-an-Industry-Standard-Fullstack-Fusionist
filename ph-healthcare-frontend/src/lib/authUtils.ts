@@ -37,10 +37,10 @@ export const adminProtectedRoutes: RouteConfig = {
     pattern: [/^\/admin\/dashboard/], // Matches any path that starts with /admin/dashboard
 };
 
-export const superAdminProtectedRoutes: RouteConfig = {
-    pattern: [/^\/admin\/dashboard/], // Matches any path that starts with /super-admin/dashboard
-    exact: [],
-};
+// export const superAdminProtectedRoutes: RouteConfig = {
+//     pattern: [/^\/admin\/dashboard/], // Matches any path that starts with /super-admin/dashboard
+//     exact: [],
+// };
 
 export const isRouteMatches = (pathname: string, routes: RouteConfig) => {
     if (routes.exact.includes(pathname)) {
@@ -68,9 +68,23 @@ export const getRouteOwner = (
         return "ADMIN";
     }
 
-    if (isRouteMatches(pathname, superAdminProtectedRoutes)) {
-        return "SUPER_ADMIN";
-    }
+    // if (isRouteMatches(pathname, superAdminProtectedRoutes)) {
+    //     return "SUPER_ADMIN";
+    // }
 
     return null; // public route
+};
+
+export const getDefaultDashboardRoute = (role: UserRole) => {
+    if (role === "ADMIN" || role === "SUPER_ADMIN") {
+        return "/admin/dashboard";
+    }
+    if (role === "DOCTOR") {
+        return "/doctor/dashboard";
+    }
+    if (role === "PATIENT") {
+        return "/dashboard";
+    }
+
+    return "/";
 };
