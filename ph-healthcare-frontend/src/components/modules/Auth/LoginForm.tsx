@@ -22,14 +22,15 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { FcGoogle } from "react-icons/fc";
 
-export default function LoginForm() {
+export default function LoginForm({ redirectPath }: { redirectPath?: string }) {
     // const queryClient = useQueryClient();
 
     const [serverError, setServerError] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState(false);
 
     const { mutateAsync, isPending } = useMutation({
-        mutationFn: (payload: ILoginPayload) => loginAction(payload),
+        mutationFn: (payload: ILoginPayload) =>
+            loginAction(payload, redirectPath),
     });
 
     const form = useForm({
@@ -196,7 +197,7 @@ export default function LoginForm() {
                         window.location.href = `${baseUrl}/auth/login/google`;
                     }}
                 >
-					<FcGoogle size={24} />
+                    <FcGoogle size={24} />
                     Sign in with Google
                 </Button>
             </CardContent>

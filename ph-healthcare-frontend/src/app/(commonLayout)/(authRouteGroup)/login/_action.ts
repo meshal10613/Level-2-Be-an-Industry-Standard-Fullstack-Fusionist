@@ -6,9 +6,15 @@ import { setTokenInCookies } from "../../../../lib/tokenUtils";
 import { ApiErrorResponse } from "../../../../types/api.types";
 import { ILoginResponse } from "../../../../types/auth.types";
 import { ILoginPayload, loginZodSchema } from "../../../../zod/auth.validation";
+import {
+    getDefaultDashboardRoute,
+    isValidRedirectForRole,
+    UserRole,
+} from "../../../../lib/authUtils";
 
 export const loginAction = async (
     payload: ILoginPayload,
+    redirectPath?: string,
 ): Promise<ILoginResponse | ApiErrorResponse> => {
     const parsedPayload = loginZodSchema.safeParse(payload);
     if (!parsedPayload.success) {
@@ -25,7 +31,8 @@ export const loginAction = async (
             parsedPayload.data,
         );
 
-        const { accessToken, refreshToken, token } = response.data;
+        const { accessToken, refreshToken, token, user } = response.data;
+        const { role, emailVerified, needPasswordChange, email } = user;
         await setTokenInCookies("accessToken", accessToken);
         await setTokenInCookies("refreshToken", refreshToken);
         await setTokenInCookies(
@@ -34,7 +41,23 @@ export const loginAction = async (
             24 * 60 * 60,
         ); // 1 day in seconds
 
-        redirect("/dashboard");
+        // if(!emailVerified){
+        //     redirect("/verify-email");
+        // }
+
+        if (needPasswordChange) {
+            //TODO : refactoring
+            redirect(`/reset-password?email=${email}`);
+        } else {
+            // redirect(redirectPath || "/dashboard");
+            const targetPath =
+                redirectPath &&
+                isValidRedirectForRole(redirectPath, role as UserRole)
+                    ? redirectPath
+                    : getDefaultDashboardRoute(role as UserRole);
+
+            redirect(targetPath);
+        }
     } catch (error: any) {
         if (
             error &&
@@ -45,7 +68,7 @@ export const loginAction = async (
         ) {
             throw error;
         }
-        
+
         return {
             success: false,
             message:
