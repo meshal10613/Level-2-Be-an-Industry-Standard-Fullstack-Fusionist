@@ -3,7 +3,10 @@ import { NextRequest } from "next/server";
 export async function proxy(request: NextRequest) {
     try {
         const { pathname } = request.nextUrl; //? eg /dashboard, /admin/dashboard, /doctor/dashboard
-		console.log(pathname)
+        const accessToken = request.cookies.get("accessToken")?.value;
+        const refreshToken = request.cookies.get("refreshToken")?.value;
+
+        
     } catch (error) {
         console.log("Error in proxy middleware", error);
     }
