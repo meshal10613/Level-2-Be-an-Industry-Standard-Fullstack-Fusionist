@@ -41,3 +41,36 @@ export const superAdminProtectedRoutes: RouteConfig = {
     pattern: [/^\/admin\/dashboard/], // Matches any path that starts with /super-admin/dashboard
     exact: [],
 };
+
+export const isRouteMatches = (pathname: string, routes: RouteConfig) => {
+    if (routes.exact.includes(pathname)) {
+        return true;
+    }
+    return routes.pattern.some((pattern: RegExp) => pattern.test(pathname));
+};
+
+export const getRouteOwner = (
+    pathname: string,
+): "SUPER_ADMIN" | "ADMIN" | "DOCTOR" | "PATIENT" | "COMMON" | null => {
+    if (isRouteMatches(pathname, commonProtectedRoutes)) {
+        return "COMMON";
+    }
+
+    if (isRouteMatches(pathname, patientProtectedRoutes)) {
+        return "PATIENT";
+    }
+
+    if (isRouteMatches(pathname, doctorProtectedRoutes)) {
+        return "DOCTOR";
+    }
+
+    if (isRouteMatches(pathname, adminProtectedRoutes)) {
+        return "ADMIN";
+    }
+
+    if (isRouteMatches(pathname, superAdminProtectedRoutes)) {
+        return "SUPER_ADMIN";
+    }
+
+    return null; // public route
+};
