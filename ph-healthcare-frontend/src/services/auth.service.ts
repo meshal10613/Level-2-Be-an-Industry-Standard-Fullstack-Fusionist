@@ -1,5 +1,6 @@
 "use server";
 
+import { cookies } from "next/headers";
 import { setTokenInCookies } from "../lib/tokenUtils";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -8,7 +9,9 @@ if (!API_BASE_URL) {
     throw new Error("API_BASE_URL is not defined in environment variables");
 }
 
-export async function getNewTokensWithRefreshToken(refreshToken: string): Promise<boolean> {
+export async function getNewTokensWithRefreshToken(
+    refreshToken: string,
+): Promise<boolean> {
     try {
         const res = await fetch(`${API_BASE_URL}/auth/refresh-token`, {
             method: "POST",
@@ -45,5 +48,40 @@ export async function getNewTokensWithRefreshToken(refreshToken: string): Promis
         return true;
     } catch (error) {
         return false;
+    }
+}
+
+export async function getUserInfo() {
+    try {
+        const cookieStore = await cookies();
+        const accessToken = cookieStore.get("accessToken")?.value;
+
+        if (!accessToken) {
+            return null;
+        }
+
+        const res = await fetch(`${API_BASE_URL}/auth/me`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Cookie: `accessToken=${accessToken}`,
+            },
+        });
+
+        if (!res.ok) {
+            console.error(
+                "Failed to fetch user info:",
+                res.status,
+                res.statusText,
+            );
+            return null;
+        }
+
+        const { data } = await res.json();
+
+        return data;
+    } catch (error) {
+        console.error("Error fetching user info:", error);
+        return null;
     }
 }
