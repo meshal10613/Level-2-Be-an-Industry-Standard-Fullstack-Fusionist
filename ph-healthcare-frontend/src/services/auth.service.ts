@@ -8,7 +8,7 @@ if (!API_BASE_URL) {
     throw new Error("API_BASE_URL is not defined in environment variables");
 }
 
-export async function refreshToken(refreshToken: string): Promise<boolean> {
+export async function getNewTokensWithRefreshToken(refreshToken: string): Promise<boolean> {
     try {
         const res = await fetch(`${API_BASE_URL}/auth/refresh-token`, {
             method: "POST",
