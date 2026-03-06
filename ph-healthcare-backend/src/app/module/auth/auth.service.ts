@@ -129,23 +129,25 @@ const getMe = async (user: IRequestUser) => {
             id: user.userId,
         },
         include: {
-            patient: {
-                include: {
-                    appointments: true,
-                    reviews: true,
-                    prescriptions: true,
-                    medicalReports: true,
-                    patientHealthData: true,
-                },
-            },
-            doctor: {
-                include: {
-                    specialties: true,
-                    appointments: true,
-                    reviews: true,
-                    prescriptions: true,
-                },
-            },
+            // patient: {
+            //     include: {
+            //         appointments: true,
+            //         reviews: true,
+            //         prescriptions: true,
+            //         medicalReports: true,
+            //         patientHealthData: true,
+            //     },
+            // },
+            // doctor: {
+            //     include: {
+            //         specialties: true,
+            //         appointments: true,
+            //         reviews: true,
+            //         prescriptions: true,
+            //     },
+            // },
+            patient: true,
+            doctor: true,
             admin: true,
         },
     });

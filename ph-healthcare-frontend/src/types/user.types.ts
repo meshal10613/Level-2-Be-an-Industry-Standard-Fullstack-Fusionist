@@ -1,4 +1,12 @@
+import { UserRole } from "../lib/authUtils";
 import { Role, UserStatus } from "./enum.types";
+
+export interface UserInfo {
+    id: string;
+    name: string;
+    email: string;
+    role: UserRole;
+}
 
 export interface User {
     id: string;
