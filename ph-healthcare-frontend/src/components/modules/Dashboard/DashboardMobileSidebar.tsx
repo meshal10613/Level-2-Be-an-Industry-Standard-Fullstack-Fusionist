@@ -6,8 +6,10 @@ import { getIconComponent } from "@/lib/iconMapper";
 import { cn } from "@/lib/utils";
 import { NavSection } from "@/types/dashboard.types";
 import { UserInfo } from "@/types/user.types";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import logo from "../../../../public/assets/ph-healthcare-logo.png";
 
 interface DashboardMobileSidebarProps {
     userInfo: UserInfo;
@@ -25,8 +27,17 @@ const DashboardMobileSidebar = ({
         <div className="flex h-full flex-col overflow-y-auto">
             {/* Logo / Brand */}
             <div className="flex h-16 items-center border-b px-6">
-                <Link href={dashboardHome}>
-                    <span className="text-xl font-bold text-primary">
+                <Link
+                    href={dashboardHome}
+                    className="flex items-center gap-2 py-2"
+                >
+                    <Image
+                        src={logo}
+                        alt={userInfo.name}
+                        width={40}
+                        height={40}
+                    />
+                    <span className="text-md font-semibold text-primary">
                         PH Healthcare
                     </span>
                 </Link>
@@ -35,7 +46,6 @@ const DashboardMobileSidebar = ({
             <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
 
             {/* Navigation Area  */}
-
             <ScrollArea className="flex-1 px-3 py-4">
                 <nav className="space-y-1">
                     {navItems.map((section, sectionId) => (

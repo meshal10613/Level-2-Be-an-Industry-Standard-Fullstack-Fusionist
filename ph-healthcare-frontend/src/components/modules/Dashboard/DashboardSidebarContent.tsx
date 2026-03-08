@@ -8,6 +8,8 @@ import { Separator } from "../../ui/separator";
 import { cn } from "../../../lib/utils";
 import { ScrollArea } from "../../ui/scroll-area";
 import { getIconComponent } from "../../../lib/iconMapper";
+import logo from "../../../../public/assets/ph-healthcare-logo.png";
+import Image from "next/image";
 
 interface DashboardSidebarContentProps {
     userInfo: UserInfo;
@@ -25,8 +27,9 @@ export default function DashboardSidebarContent({
         <div className="hidden md:flex h-full w-64 flex-col border-r bg-card overflow-y-auto">
             {/* Logo / Brand */}
             <div className="flex h-16 items-center border-b px-6">
-                <Link href={dashboardHome}>
-                    <span className="text-xl font-bold text-primary">
+                <Link href={dashboardHome} className="flex items-center gap-2 py-2">
+                    <Image src={logo} alt={userInfo.name} width={40} height={40} />
+                    <span className="text-md font-semibold text-primary">
                         PH Healthcare
                     </span>
                 </Link>

@@ -117,15 +117,18 @@ const NotificationDropdown = () => {
                                 key={notification.id}
                                 className="flex flex-col items-start gap-2 p-3 cursor-pointer"
                             >
-                                <div className="mt-0.5">
+                                {/* <div className="mt-0.5">
                                     {getNotificationIcon(notification.type)}
-                                </div>
+                                </div> */}
 
                                 <div className="flex-1 space-y-1">
                                     <div className="flex items-center justify-between">
-                                        <p className="text-sm font-medium leading-none">
-                                            {notification.title}
-                                        </p>
+                                        <div className="flex items-center gap-2">
+                                            {getNotificationIcon(notification.type)}
+                                            <p className="text-sm font-medium leading-none">
+                                                {notification.title}
+                                            </p>
+                                        </div>
                                         {!notification.read && (
                                             <div className="h-2 w-2 rounded-full bg-blue-600" />
                                         )}
