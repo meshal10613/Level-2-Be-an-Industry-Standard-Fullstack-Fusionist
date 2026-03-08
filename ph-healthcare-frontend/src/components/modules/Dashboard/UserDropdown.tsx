@@ -48,14 +48,14 @@ const UserDropdown = ({ userInfo }: UserDropdownProps) => {
                 <DropdownMenuSeparator />
 
                 <DropdownMenuItem>
-                    <Link href={"/my-profile"}>
+                    <Link href={"/my-profile"} className="flex items-center gap-1">
                         <User className="mr-2 h-4 w-4" />
                         My Profile
                     </Link>
                 </DropdownMenuItem>
 
                 <DropdownMenuItem>
-                    <Link href={"/change-password"}>
+                    <Link href={"/change-password"} className="flex items-center gap-1">
                         <Key className="mr-2 h-4 w-4" />
                         Change Password
                     </Link>

@@ -1,7 +1,7 @@
 import { NavSection } from "../types/dashboard.types";
 import { getDefaultDashboardRoute, UserRole } from "./authUtils";
 
-export const getCommonNavItems = (role: UserRole) => {
+export const getCommonTopNavItems = (role: UserRole) => {
     const defaultDashboard = getDefaultDashboardRoute(role);
 
     return [
@@ -23,13 +23,18 @@ export const getCommonNavItems = (role: UserRole) => {
                     icon: "User",
                 },
             ],
-        },
+        }
+    ];
+};
+
+export const getCommonBottomNavItems = () => {
+    return [
         {
             title: "Settings",
             items: [
                 {
                     title: "Change Password",
-                    href: "change-password",
+                    href: "/change-password",
                     icon: "Settings",
                 },
             ],
@@ -167,17 +172,18 @@ export const patientNavItems: NavSection[] = [
 ];
 
 export const getNavItemsByRole = (role: UserRole): NavSection[] => {
-    const commonNavItems = getCommonNavItems(role);
+    const commonNavItems = getCommonTopNavItems(role);
+    const commonBottomNavItems = getCommonBottomNavItems();
 
     switch (role) {
         case "SUPER_ADMIN":
         case "ADMIN":
-            return [...commonNavItems, ...adminNavItems];
+            return [...commonNavItems, ...adminNavItems, ...commonBottomNavItems];
 
         case "DOCTOR":
-            return [...commonNavItems, ...doctorNavItems];
+            return [...commonNavItems, ...doctorNavItems, ...commonBottomNavItems];
 
         case "PATIENT":
-            return [...commonNavItems, ...patientNavItems];
+            return [...commonNavItems, ...patientNavItems, ...commonBottomNavItems];
     }
 };
