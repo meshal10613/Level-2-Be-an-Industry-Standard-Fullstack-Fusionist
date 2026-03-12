@@ -19,9 +19,23 @@ import { getDoctors } from "../../../services/doctor.service";
 export default function DoctorsManagementPage() {
     const doctorColumns = [
         { accessorKey: "name", header: "Name" },
-        { accessorKey: "specialization", header: "Specialization" },
+        {
+            accessorKey: "specialties",
+            header: "Specialization",
+            cell: ({
+                getValue,
+            }: {
+                getValue: () => {
+                    specialty: { title: string; isDeleted: boolean };
+                }[];
+            }) =>
+                getValue()
+                    ?.filter((s) => !s.specialty.isDeleted)
+                    .map((s) => s.specialty.title)
+                    .join(", ") ?? "—",
+        },
         { accessorKey: "experience", header: "Experience" },
-        { accessorKey: "rating", header: "Rating" },
+        { accessorKey: "averageRating", header: "Rating" },
     ];
 
     const { data: doctorDataResponse } = useQuery({
