@@ -1,5 +1,6 @@
 import { Gender } from "./enum.types";
 import { IDoctorSpecialty } from "./specialty.types";
+import { IUser } from "./user.types";
 
 export interface IDoctor {
     id: string;
@@ -26,6 +27,7 @@ export interface IDoctor {
     updatedAt: Date;
 
     userId: string;
+    user: IUser;
 
     // Relations (optional depending on your use case)
     specialties?: IDoctorSpecialty[];
