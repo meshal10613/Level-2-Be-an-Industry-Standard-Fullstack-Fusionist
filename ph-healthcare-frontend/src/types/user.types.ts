@@ -8,7 +8,7 @@ export interface UserInfo {
     role: UserRole;
 }
 
-export interface User {
+export interface IUser {
     id: string;
     name: string;
     email: string;
@@ -23,10 +23,10 @@ export interface User {
     updatedAt: Date;
 
     sessions?: Session[];
-    accounts?: Account[];
-    // patient?: Patient | null;
-    // doctor?: Doctor | null;
-    // admin?: Admin | null;
+    accounts?: IAccount[];
+    // patient?: Patient;
+    // doctor?: Doctor;
+    // admin?: Admin;
 }
 
 export interface Session {
@@ -39,10 +39,10 @@ export interface Session {
     userAgent?: string | null;
     userId: string;
 
-    user?: User;
+    user?: IUser;
 }
 
-export interface Account {
+export interface IAccount {
     id: string;
     accountId: string;
     providerId: string;
@@ -59,5 +59,5 @@ export interface Account {
     createdAt: Date;
     updatedAt: Date;
 
-    user?: User;
+    user?: IUser;
 }

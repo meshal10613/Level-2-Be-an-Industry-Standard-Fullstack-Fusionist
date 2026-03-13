@@ -14,11 +14,12 @@ import {
     getCoreRowModel,
     useReactTable,
 } from "@tanstack/react-table";
-import { getDoctors } from "../../../services/doctor.service";
+import { getDoctors } from "../../../../services/doctor.service";
 
 export default function DoctorsManagementPage() {
     const doctorColumns = [
         { accessorKey: "name", header: "Name" },
+        { accessorKey: "designation", header: "Designation" },
         {
             accessorKey: "specialties",
             header: "Specialization",
@@ -36,6 +37,7 @@ export default function DoctorsManagementPage() {
         },
         { accessorKey: "experience", header: "Experience" },
         { accessorKey: "averageRating", header: "Rating" },
+        { accessorKey: "appointmentFee", header: "Appointment Fee" },
     ];
 
     const { data: doctorDataResponse } = useQuery({
@@ -54,7 +56,7 @@ export default function DoctorsManagementPage() {
 
     // console.log(doctorDataResponse?.data.map(doctor => doctor.name));
 
-    console.log(doctors);
+    console.log(doctorDataResponse);
     return (
         <Table>
             <TableHeader>
