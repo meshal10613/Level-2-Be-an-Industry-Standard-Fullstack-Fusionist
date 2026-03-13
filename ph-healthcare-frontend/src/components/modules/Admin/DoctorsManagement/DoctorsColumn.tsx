@@ -80,7 +80,7 @@ export const doctorColumns: ColumnDef<IDoctor>[] = [
         cell: ({ row }) => {
             return (
                 <span className="text-sm font-semibold text-green-600">
-                    ${row.original?.appointmentFee.toFixed(2) ?? "N/A"}
+                    &#2547;{row.original?.appointmentFee.toFixed(2) ?? "N/A"}
                 </span>
             );
         },

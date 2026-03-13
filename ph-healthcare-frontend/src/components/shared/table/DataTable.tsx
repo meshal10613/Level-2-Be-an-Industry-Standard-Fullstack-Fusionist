@@ -11,7 +11,7 @@ import {
     DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
 import { Button } from "../../ui/button";
-import { MoreHorizontal } from "lucide-react";
+import { Eye, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import {
     Table,
     TableBody,
@@ -45,60 +45,68 @@ export default function DataTable<TData>({
 }: DataTableProps<TData>) {
     const tableColumns: ColumnDef<TData>[] = actions
         ? [
-              ...columns,
-              {
-                  id: "actions",
-                  header: "Actions",
-                  cell: ({ row }) => {
-                      const rowData = row.original;
-                      return (
-                          <DropdownMenu>
-                              <DropdownMenuTrigger>
-                                  <Button
-                                      variant={`ghost`}
-                                      className="h-8 w8 p-0"
-                                  >
-                                      <span>Open Menu</span>
-                                      <MoreHorizontal className="h-4 w-4" />
-                                  </Button>
-                              </DropdownMenuTrigger>
+                ...columns,
+                {
+                    id: "actions",
+                    header: "Actions",
+                    cell: ({ row }) => {
+                        const rowData = row.original;
+                        return (
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        className="h-8 w-8 p-0 flex items-center justify-center"
+                                    >
+                                        <MoreHorizontal className="h-4 w-4" />
+                                    </Button>
+                                </DropdownMenuTrigger>
 
-                              <DropdownMenuContent align="end">
-                                  {actions.onView && (
-                                      <DropdownMenuItem
-                                          onClick={() =>
-                                              actions.onView?.(rowData)
-                                          }
-                                      >
-                                          View
-                                      </DropdownMenuItem>
-                                  )}
+                                <DropdownMenuContent
+                                    align="end"
+                                    className="w-37.5"
+                                >
+                                    {actions.onView && (
+                                        <DropdownMenuItem
+                                            onClick={() =>
+                                                actions.onView?.(rowData)
+                                            }
+                                            className="flex items-center gap-2 cursor-pointer"
+                                        >
+                                            <Eye className="h-4 w-4" />
+                                            View
+                                        </DropdownMenuItem>
+                                    )}
 
-                                  {actions.onView && (
-                                      <DropdownMenuItem
-                                          onClick={() =>
-                                              actions.onEdit?.(rowData)
-                                          }
-                                      >
-                                          Edit
-                                      </DropdownMenuItem>
-                                  )}
+                                    {actions.onEdit && (
+                                        <DropdownMenuItem
+                                            onClick={() =>
+                                                actions.onEdit?.(rowData)
+                                            }
+                                            className="flex items-center gap-2 cursor-pointer"
+                                        >
+                                            <Pencil className="h-4 w-4" />
+                                            Edit
+                                        </DropdownMenuItem>
+                                    )}
 
-                                  {actions.onView && (
-                                      <DropdownMenuItem
-                                          onClick={() =>
-                                              actions.onDelete?.(rowData)
-                                          }
-                                      >
-                                          Delete
-                                      </DropdownMenuItem>
-                                  )}
-                              </DropdownMenuContent>
-                          </DropdownMenu>
-                      );
-                  },
-              },
-          ]
+                                    {actions.onDelete && (
+                                        <DropdownMenuItem
+                                            onClick={() =>
+                                                actions.onDelete?.(rowData)
+                                            }
+                                            className="flex items-center gap-2 cursor-pointer"
+                                        >
+                                            <Trash2 className="h-4 w-4" />
+                                            Delete
+                                        </DropdownMenuItem>
+                                    )}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        );
+                    },
+                },
+            ]
         : columns;
 
     // eslint-disable-next-line react-hooks/incompatible-library
