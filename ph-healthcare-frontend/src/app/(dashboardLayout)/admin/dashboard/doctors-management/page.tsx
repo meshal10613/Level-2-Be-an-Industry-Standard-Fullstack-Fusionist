@@ -1,19 +1,58 @@
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import {
+    dehydrate,
+    HydrationBoundary,
+    QueryClient,
+} from "@tanstack/react-query";
 import { getDoctors } from "../../../../../services/doctor.service";
 import DoctorsTable from "../../../../../components/modules/Admin/DoctorsManagement/DoctorsTable";
+import { getAllSpecialties } from "../../../../../services/specialty.service";
 
-export default async function DoctorsManagementPage() {
+export default async function DoctorsManagementPage({
+    searchParams,
+}: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+    const queryParamsObjects = await searchParams;
+    const queryString = Object.keys(queryParamsObjects)
+        .map((key) => {
+            const value = queryParamsObjects[key];
+            if (value === undefined) {
+                return "";
+            }
+
+            if (Array.isArray(value)) {
+                return value
+                    .map(
+                        (v) =>
+                            `${encodeURIComponent(key)}=${encodeURIComponent(v)}`,
+                    )
+                    .join("&");
+            }
+
+            return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+        })
+        .filter(Boolean)
+        .join("&");
+
     const queryClient = new QueryClient();
 
     await queryClient.prefetchQuery({
-        queryKey: ["doctors"],
-        queryFn: getDoctors,
+        queryKey: ["doctors", queryString],
+        queryFn: () => getDoctors(queryString),
         staleTime: 1000 * 60 * 60, // 1 hour
-        gcTime: 1000 * 60 * 60 * 6, // 1 hour
+        gcTime: 1000 * 60 * 60 * 6, // 6 hour
     });
+
+    await queryClient.prefetchQuery({
+        queryKey: ["specialties"],
+        queryFn: () => getAllSpecialties(),
+        staleTime: 1000 * 60 * 60 * 6, // 6 hours
+        gcTime: 1000 * 60 * 60 * 24, // 24 hours
+    });
+
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
-            <DoctorsTable />
+            <DoctorsTable initialQueryString={queryString} />
         </HydrationBoundary>
     );
 }
