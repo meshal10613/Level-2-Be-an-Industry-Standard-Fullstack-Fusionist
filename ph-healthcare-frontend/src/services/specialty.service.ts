@@ -5,7 +5,7 @@ import { ISpecialty } from "../types/specialty.types";
 
 export const getAllSpecialties = async () => {
     try {
-        const specialties = await httpClient.get<ISpecialty[]>("/specialties");
+        const specialties = await httpClient.get<ISpecialty[]>("/specialty");
         return specialties;
     } catch (error) {
         console.log("Error fetching specialties:", error);

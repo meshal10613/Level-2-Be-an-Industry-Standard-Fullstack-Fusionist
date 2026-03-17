@@ -52,6 +52,7 @@ interface DataTableProps<TData> {
     data: TData[];
     columns: ColumnDef<TData>[];
     actions?: DataTableActions<TData>;
+    toolbarAction?: React.ReactNode;
     emptyMessage?: string;
     isLoading?: boolean;
     sorting?: {
@@ -175,13 +176,12 @@ export default function DataTable<TData>({
         onSortingChange: sorting
             ? (updater) => {
                   const currentSortingState = sorting.state;
+                    const nextSortingState =
+                        typeof updater === "function"
+                            ? updater(currentSortingState)
+                            : updater;
 
-                  const nextSortingState =
-                      typeof updater === "function"
-                          ? updater(currentSortingState)
-                          : updater;
-
-                  sorting.onSortingChange(nextSortingState);
+                    sorting.onSortingChange(nextSortingState);
               }
             : undefined,
         onPaginationChange: pagination

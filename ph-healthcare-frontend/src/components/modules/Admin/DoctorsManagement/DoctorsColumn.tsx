@@ -23,6 +23,7 @@ export const doctorColumns: ColumnDef<IDoctor>[] = [
     {
         id: "specialties",
         accessorKey: "specialties",
+        enableSorting: false,
         header: "Specialties",
         cell: ({ row }) => {
             const specialties = row.original.specialties;
@@ -36,7 +37,7 @@ export const doctorColumns: ColumnDef<IDoctor>[] = [
             }
 
             return (
-                <div>
+                <div className="flex flex-col gap-2 justify-center">
                     {specialties.map(({ specialty }, id) => {
                         const title = specialty?.title || "N/A";
                         return (
