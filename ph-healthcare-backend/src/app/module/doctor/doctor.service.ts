@@ -62,7 +62,7 @@ const getDoctorById = async (id: string) => {
                 include: {
                     patient: true,
                     schedule: true,
-                    prescription: true,
+                    // prescription: true,
                 },
             },
             doctorSchedules: {

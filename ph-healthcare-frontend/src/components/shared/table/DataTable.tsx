@@ -85,6 +85,7 @@ export default function DataTable<TData>({
     data = [] as TData[],
     columns,
     actions,
+    toolbarAction,
     emptyMessage,
     isLoading,
     sorting,
@@ -176,12 +177,12 @@ export default function DataTable<TData>({
         onSortingChange: sorting
             ? (updater) => {
                   const currentSortingState = sorting.state;
-                    const nextSortingState =
-                        typeof updater === "function"
-                            ? updater(currentSortingState)
-                            : updater;
+                  const nextSortingState =
+                      typeof updater === "function"
+                          ? updater(currentSortingState)
+                          : updater;
 
-                    sorting.onSortingChange(nextSortingState);
+                  sorting.onSortingChange(nextSortingState);
               }
             : undefined,
         onPaginationChange: pagination
@@ -201,7 +202,7 @@ export default function DataTable<TData>({
         <div className="relative">
             {isLoading && <Loading />}
 
-            {(search || filters) && (
+            {(search || filters || toolbarAction) && (
                 <div className="mb-4 flex flex-wrap items-start gap-3">
                     {search && (
                         <DataTableSearch
@@ -222,6 +223,10 @@ export default function DataTable<TData>({
                             onClearAll={filters.onClearAll}
                             isLoading={isLoading}
                         />
+                    )}
+
+                    {toolbarAction && (
+                        <div className="ml-auto shrink-0">{toolbarAction}</div>
                     )}
                 </div>
             )}

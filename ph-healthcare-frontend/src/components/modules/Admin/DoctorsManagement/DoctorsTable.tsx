@@ -21,6 +21,10 @@ import { useMemo } from "react";
 import { getDoctors } from "../../../../services/doctor.service";
 import { getAllSpecialties } from "../../../../services/specialty.service";
 import { doctorColumns } from "./DoctorsColumn";
+import CreateDoctorFormModal from "./CreateDoctorFormModal";
+import EditDoctorFormModal from "./EditDoctorFormModal";
+import ViewDoctorProfileDialog from "./ViewDoctorProfileDialog";
+import DeleteDoctorConfirmationDialog from "./DeleteDoctorConfirmationDialog";
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_LIMIT = 10;
@@ -169,17 +173,17 @@ const DoctorsTable = ({
                     onFilterChange: handleFilterChange,
                     onClearAll: clearAllFilters,
                 }}
-                // toolbarAction={
-                //     <CreateDoctorFormModal
-                //         specialties={specialties}
-                //         isLoadingSpecialties={isLoadingSpecialties}
-                //     />
-                // }
+                toolbarAction={
+                    <CreateDoctorFormModal
+                        specialties={specialties}
+                        isLoadingSpecialties={isLoadingSpecialties}
+                    />
+                }
                 meta={meta}
                 actions={tableActions}
             />
 
-            {/* <EditDoctorFormModal
+            <EditDoctorFormModal
                 open={isEditModalOpen}
                 onOpenChange={onEditOpenChange}
                 doctor={editingItem}
@@ -197,7 +201,7 @@ const DoctorsTable = ({
                 open={isViewDialogOpen}
                 onOpenChange={onViewOpenChange}
                 doctor={viewingItem}
-            /> */}
+            />
         </>
     );
 };
