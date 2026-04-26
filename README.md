@@ -123,8 +123,8 @@ DATABASE_URL=postgresql://postgres:postgres@ph-db:5432/ph_health?schema=public
 Build and run server:
 
 ```bash
-docker build -t ph-server-dev ./server
-MSYS_NO_PATHCONV=1 docker run -d --name ph-server --network ph-net --env-file ./server/.env -e CHOKIDAR_USEPOLLING=1 -e CHOKIDAR_INTERVAL=300 -p 5000:5000 -v "$PWD/server:/app" -v server-node-modules:/app/node_modules -v server-logs:/app/logs -w /app ph-server-dev sh -lc "CI=true pnpm install && pnpm generate && pnpm dev"
+docker build -t ph-server-dev ./backend
+MSYS_NO_PATHCONV=1 docker run -d --name ph-server --network ph-net --env-file ./backend/.env -e CHOKIDAR_USEPOLLING=1 -e CHOKIDAR_INTERVAL=300 -p 5000:5000 -v "$PWD/backend:/app" -v server-node-modules:/app/node_modules -v server-logs:/app/logs -w /app ph-server-dev sh -lc "CI=true pnpm install && pnpm generate && pnpm dev"
 docker exec -it ph-server sh -lc "pnpm exec prisma migrate deploy"
 ```
 
@@ -192,7 +192,7 @@ docker build -t ph-client-dev ./client
 Run client with hot reload:
 
 ```bash
-MSYS_NO_PATHCONV=1 docker run -d --name ph-client --network ph-net --env-file ./client/.env -e CHOKIDAR_USEPOLLING=1 -e CHOKIDAR_INTERVAL=300 -e WATCHPACK_POLLING=true -p 3000:3000 -v "$PWD/client:/app" -v client-node-modules:/app/node_modules -w /app ph-client-dev sh -lc "CI=true pnpm install && pnpm exec next dev --webpack -H 0.0.0.0 -p 3000"
+MSYS_NO_PATHCONV=1 docker run -d --name ph-client --network ph-net --env-file ./frontned/.env -e CHOKIDAR_USEPOLLING=1 -e CHOKIDAR_INTERVAL=300 -e WATCHPACK_POLLING=true -p 3000:3000 -v "$PWD/frontend:/app" -v client-node-modules:/app/node_modules -w /app ph-client-dev sh -lc "CI=true pnpm install && pnpm exec next dev --webpack -H 0.0.0.0 -p 3000"
 ```
 
 Check containers and logs:

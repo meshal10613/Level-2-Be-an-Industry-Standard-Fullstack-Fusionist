@@ -6,3 +6,5 @@ dist
 /src/generated
 pnpm-lock.yaml
 .vercel
+.pnpm-store
+vercel

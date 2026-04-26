@@ -12,6 +12,7 @@ import { patientRoutes } from "../module/patient/patient.route";
 import { reviewRoutes } from "../module/review/review.route";
 import { prescriptionRoutes } from "../module/prescription/prescription.route";
 import { statsRoutes } from "../module/stats/stats.route";
+import { ragRoutes } from "../module/rag/rag.route";
 
 const router = Router();
 
@@ -28,5 +29,6 @@ router.use("/patient", patientRoutes);
 router.use("/review", reviewRoutes);
 router.use("/prescription", prescriptionRoutes);
 router.use("/stats", statsRoutes);
+router.use("/rag", ragRoutes);
 
 export const IndexRoutes = router;

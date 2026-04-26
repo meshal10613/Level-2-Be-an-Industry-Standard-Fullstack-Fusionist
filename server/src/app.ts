@@ -13,12 +13,15 @@ import qs from "qs";
 import { paymentController } from "./app/module/payment/payment.controller";
 import { appointmentService } from "./app/module/appointment/appointment.service";
 import chalk from "chalk";
+import {requestLogger} from "./app/middleware/requestLogger"
 
 const app: Application = express();
 app.set("query parser", (str: string) => qs.parse(str));
 
 app.set("view engine", "ejs");
 app.set("views", path.resolve(process.cwd(), `src/app/templates`));
+
+app.use(requestLogger)
 
 app.use(
     "/webhook",

@@ -1,0 +1,89 @@
+services:
+  ph-db:
+    image: postgres:16-alpine
+    container_name: ph-db
+    networks:
+      - ph-net
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=4219
+      - POSTGRES_DB=ph_healthcare
+    volumes:
+      - ph-pg-data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ph_healthcare"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  ph-server:
+    container_name: ph-server
+    build:
+      context: ./server
+      dockerfile: src/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      ph-db:
+        condition: service_healthy
+    networks:
+      - ph-net
+    env_file:
+      - ./server/.env
+    environment:
+      CHOKIDAR_USEPOLLING: "1"
+      CHOKIDAR_INTERVAL: "300"
+    ports:
+      - "5000:5000"
+    working_dir: /app
+    volumes:
+      - ./server:/app
+      - server-node-modules:/app/node_modules
+      - server-logs:/app/logs
+    command: sh -lc "CI=true pnpm install && pnpm generate && pnpm prisma migrate deploy && pnpm dev"
+
+  ph-client:
+    container_name: ph-client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      ph-server:
+        condition: service_started
+    networks:
+      - ph-net
+    env_file:
+      - ./client/.env
+    environment:
+      CHOKIDAR_USEPOLLING: "1"
+      CHOKIDAR_INTERVAL: "300"
+      WATCHPACK_POLLING: "true"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+      - client-node-modules:/app/node_modules
+    working_dir: /app
+    command: sh -lc "CI=true pnpm install && pnpm exec next dev --webpack -H 0.0.0.0 -p 3000"
+
+networks:
+  ph-net:
+    driver: bridge
+
+volumes:
+  ph-pg-data:
+  server-node-modules:
+  server-logs:
+  client-node-modules:
+
+
+# docker network create ph-net
+
+# docker volume create ph-pg-data
+# docker volume create server-node-modules
+# docker volume create server-logs
+# docker volume create client-node-modules
+
+# docker run -d --name ph-db --network ph-net -e POSTGRES_HOST_AUTH_METHOD=trust -e POSTGRES_DB=ph_health -v ph-pg-data:/var/lib/postgresql/data postgres:16-alpine
