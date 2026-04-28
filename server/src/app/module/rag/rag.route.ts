@@ -5,10 +5,10 @@ const router = Router();
 
 router.get("/stats", ragController.getStats);
 
-//index doctors data
+//? index doctors data
 router.post("/ingest-doctors", ragController.ingestDoctors);
 
-// query rag
+//? query rag
 router.post("/query", ragController.queryRag);
 
 
